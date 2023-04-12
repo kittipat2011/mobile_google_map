@@ -1,4 +1,4 @@
-class NearbyPlacesResponse {
+ class NearbyPlacesResponse {
   List<Null>? htmlAttributions;
   List<Results>? results;
   String? status;

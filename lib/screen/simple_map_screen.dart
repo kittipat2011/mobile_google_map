@@ -82,7 +82,7 @@ class _SimpleMapScreen extends State<SimpleMapScreen> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Add Marker"),
+            title: const Text("Add Marker",style: TextStyle(color: Color(0xFF5F5BDC))),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -115,7 +115,13 @@ class _SimpleMapScreen extends State<SimpleMapScreen> {
                   });
                   _saveMarkers();
                 },
-                child: const Text("Add"),
+                child: const Text('Add'),
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xFF5F5BDC),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                ),
               ),
               TextButton(
                 onPressed: () {
@@ -124,7 +130,7 @@ class _SimpleMapScreen extends State<SimpleMapScreen> {
                     _addingMarker = false;
                   });
                 },
-                child: const Text("Cancel"),
+                child: const Text("Cancel",style: TextStyle(color: Color(0xFF5F5BDC))),
               ),
             ],
           );
@@ -141,7 +147,7 @@ class _SimpleMapScreen extends State<SimpleMapScreen> {
     _saveMarkers();
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -153,19 +159,44 @@ class _SimpleMapScreen extends State<SimpleMapScreen> {
           },
         ),
       ),
-      body: GoogleMap(
+      body: Stack(
+      children: [
+      GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: Thailand,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
+          onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
+          },
+            onTap: _onMapTapped,
+            markers: _markers,
+        ),
+      Positioned(
+        left: 20,
+        bottom: 55,
+        child: FloatingActionButton(
+        onPressed: () {
+          _toggleAddMarker();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('You can now add markers!'),
+              backgroundColor: Color(0xFF5F5BDC),
+              //  shape: RoundedRectangleBorder(
+              //  borderRadius: BorderRadius.circular(10),  
+              // ),
+              ),
+          );
         },
-        onTap: _onMapTapped,
-        markers: _markers,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _toggleAddMarker,
         child: const Icon(Icons.add),
+        // backgroundColor: Color(0xFF5F5BDC),
       ),
+      ),
+  ],
+)
+
+      
+      
+    
+      
     );
   }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile_google_map/screen/current_location_screen.dart';
 import 'package:mobile_google_map/screen/search_places_screen.dart';
 import 'package:mobile_google_map/screen/simple_map_screen.dart';
+import 'package:lottie/lottie.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,37 +17,83 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+      //   leading: Image.asset(
+      //     'assets/images/my_logo.png',
+      //     width: 30,
+      //     height: 30,
+      //  ),
         title: const Text("NaviGo"),
+        centerTitle: true,
       ),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Column(children: [
-          ElevatedButton(
+      body: Padding(
+        padding: const EdgeInsets.all(30.0),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Column(children: [
+            Lottie.network('https://assets8.lottiefiles.com/packages/lf20_tgsdtwsc.json'), 
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return const SimpleMapScreen();
+                  }));
+              },
+              text: 'Simple Map',
+            ),
+            ElevatedButton(
               onPressed: () {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  return const SimpleMapScreen();
-                }));
+                  .push(MaterialPageRoute(builder: (context) {
+                    return const CurrentLocation();
+                  }));
               },
-              child: const Text("Simple Map")),
-          ElevatedButton(
+              text: 'User current location',
+            ),
+            ElevatedButton(
               onPressed: () {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  return const CurrentLocation();
-                }));
+                  .push(MaterialPageRoute(builder: (context) {
+                    return const SearchPlacesScreen();
+                  }));
               },
-              child: const Text("User current location")),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  return const SearchPlacesScreen();
-                }));
-              },
-              child: const Text("Search Place")),
-        ]),
+              text: 'Search Place',
+            ),
+          ]),
+        ),
       ),
     );
   }
+}
+
+class ElevatedButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final String text;
+  const ElevatedButton({
+    Key? key,
+    required this.onPressed,
+    required this.text,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+  return Padding(
+    padding: EdgeInsets.all(5.0), // Add 16.0 padding on all sides
+    child: SizedBox(
+      width: 350,
+      height: 100,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: InkWell(
+          onTap: onPressed,
+          child: Center(
+            child: Text(text),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
 }

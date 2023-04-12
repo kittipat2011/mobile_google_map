@@ -34,14 +34,17 @@ class _CurrentLocationState extends State<CurrentLocation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("User Current Location"),
-        centerTitle: true,
+      title: const Text("User Current Location"),
+      centerTitle: true,
+      backgroundColor: Color(0xFF0A182B),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: GoogleMap(
-              initialCameraPosition: const CameraPosition(
+      body: Stack(
+  children: [
+    Column(
+      children: [
+        Expanded(
+          child: GoogleMap(
+            initialCameraPosition: const CameraPosition(
                   target: LatLng(15.425709086101342, 100.87169109829972),
                   zoom: 7),
               markers: markers,
@@ -50,9 +53,11 @@ class _CurrentLocationState extends State<CurrentLocation> {
               onMapCreated: (GoogleMapController controller) {
                 googleMapController = controller;
               },
-            ),
           ),
-          Expanded(
+        ),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.all(15.0),
             child: ListView.builder(
               itemCount: nearbyPlacesResponse.results?.length ?? 0,
               itemBuilder: (context, index) {
@@ -60,13 +65,31 @@ class _CurrentLocationState extends State<CurrentLocation> {
               },
             ),
           ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _updateCurrentLocation,
-        label: const Text("Update Location"),
-        icon: const Icon(Icons.location_history),
-      ),
+        ),
+      ],
+    ),
+    Positioned(
+      top: 300.0, 
+      right: 5.0, 
+      child: FloatingActionButton.extended(
+      onPressed: () {
+      _updateCurrentLocation();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Update Location !'),
+          backgroundColor: Color(0xFF5F5BDC),
+        ),
+      );
+    },
+    label: const Text("Update Location"),
+    icon: const Icon(Icons.location_history),
+    backgroundColor: Color(0xFF5F5BDC),
+  ),
+),
+
+  ],
+)
+
     );
   }
 
@@ -131,21 +154,23 @@ class _CurrentLocationState extends State<CurrentLocation> {
           ),
         );
       },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
+      child: Card(
         margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
-        padding: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
-            borderRadius: BorderRadius.circular(10)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Name: ${results.name!}"),
-            Text(
-                "Location: ${results.geometry!.location!.lat} , ${results.geometry!.location!.lng}")
-          ],
-        ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),  
+          ),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 70,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("Name: ${results.name!}"),
+                Text("Location: ${results.geometry!.location!.lat}, ${results.geometry!.location!.lng}"),
+              ],
+            ),
+          ),
       ),
     );
   }
