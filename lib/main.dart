@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Google Map',
       theme: ThemeData(
-        primarySwatch: MaterialColor(
+        primarySwatch: const MaterialColor(
           0xFF0A182B,
           <int, Color>{
             50: Color(0xFFE3E9F0),
