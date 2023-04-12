@@ -32,85 +32,88 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
   LatLng currentLatLng = const LatLng(15.425709086101342, 100.87169109829972);
   String radius = "300";
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    key: homeScaffoldKey,
-    appBar: AppBar(
-      title: const Text("Search Places"),
-    ),
-    body: Stack(
-      children: [
-        GoogleMap(
-          initialCameraPosition: initialCameraPosition,
-          markers: markersList,
-          mapType: MapType.normal,
-          onMapCreated: (GoogleMapController controller) {
-            googleMapController = controller;
-          },
-        ),
-        Positioned(
-          left: 70,
-          bottom: 50,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                  color: Color(0xFF5F5BDC),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: homeScaffoldKey,
+      appBar: AppBar(
+        title: const Text("Search Places"),
+      ),
+      body: Stack(
+        children: [
+          GoogleMap(
+            initialCameraPosition: initialCameraPosition,
+            markers: markersList,
+            mapType: MapType.normal,
+            onMapCreated: (GoogleMapController controller) {
+              googleMapController = controller;
+            },
+          ),
+          Positioned(
+            left: 70,
+            bottom: 50,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  color: const Color(0xFF5F5BDC),
                   child: InkWell(
                     onTap: _handlePressButton,
-                      child: SizedBox(
-                        width: 250,
-                        height: 50,
-                          child: Center(
-                            child: Text(
-                              "Search Places",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                            ),                            
-                         ),
+                    child: const SizedBox(
+                      width: 250,
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          "Search Places",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
+                    ),
                   ),
-              ),
-
-              // SizedBox(height: 5),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
                 ),
-                  color: Color(0xFF5F5BDC),
+
+                // SizedBox(height: 5),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  color: const Color(0xFF5F5BDC),
                   child: InkWell(
-                    onTap: currentLatLng == null ? null : () {
-                      _listNearbyPlaces(currentLatLng!);
-                    },
-                  child: SizedBox(
-                    width: 250,
-                    height: 50,
+                    // ignore: unnecessary_null_comparison
+                    onTap: currentLatLng == null
+                        ? null
+                        : () {
+                            _listNearbyPlaces(currentLatLng!);
+                          },
+                    child: const SizedBox(
+                      width: 250,
+                      height: 50,
                       child: Center(
                         child: Text(
                           "List Nearby Places",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                  ),
                     ),
+                  ),
                 ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    );
+  }
 
   Future<void> _handlePressButton() async {
     Prediction? p = await PlacesAutocomplete.show(
@@ -176,67 +179,68 @@ Widget build(BuildContext context) {
     NearbyPlacesResponse nearbyPlacesResponse =
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
     showDialog(
-    context: context,
-    builder: (BuildContext context) {
-    return AlertDialog(
-      title: const Text('Nearby Places',style: TextStyle(color: Color(0xFF5F5BDC))),
-      backgroundColor: Color.fromARGB(255, 246, 246, 247),
-      content: SizedBox(
-        width: double.maxFinite,
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: nearbyPlacesResponse.results!.length,
-          itemBuilder: (BuildContext context, int index) {
-            final result = nearbyPlacesResponse.results![index];
-            return Card(
-              child: ListTile(
-              title: Text(result.name ?? 'Unknown'),
-              subtitle: Text(result.vicinity ?? 'Unknown'),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                Navigator.pop(context);
-                double? lat = result.geometry?.location?.lat;
-                double? lng = result.geometry?.location?.lng;
-                if (lat != null && lng != null) {
-                  markersList.clear();
-                  markersList.add(Marker(
-                  markerId: MarkerId(result.placeId!),
-                  position: LatLng(lat, lng),
-                  infoWindow: InfoWindow(title: result.name)));
-                  setState(() {});
-                  googleMapController.animateCamera(
-                  CameraUpdate.newLatLngZoom(LatLng(lat, lng), 25.0));
-                }
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Nearby Places',
+              style: TextStyle(color: Color(0xFF5F5BDC))),
+          backgroundColor: const Color.fromARGB(255, 246, 246, 247),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: nearbyPlacesResponse.results!.length,
+              itemBuilder: (BuildContext context, int index) {
+                final result = nearbyPlacesResponse.results![index];
+                return Card(
+                  child: ListTile(
+                    title: Text(result.name ?? 'Unknown'),
+                    subtitle: Text(result.vicinity ?? 'Unknown'),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    onTap: () {
+                      Navigator.pop(context);
+                      double? lat = result.geometry?.location?.lat;
+                      double? lng = result.geometry?.location?.lng;
+                      if (lat != null && lng != null) {
+                        markersList.clear();
+                        markersList.add(Marker(
+                            markerId: MarkerId(result.placeId!),
+                            position: LatLng(lat, lng),
+                            infoWindow: InfoWindow(title: result.name)));
+                        setState(() {});
+                        googleMapController.animateCamera(
+                            CameraUpdate.newLatLngZoom(LatLng(lat, lng), 25.0));
+                      }
+                    },
+                  ),
+                );
               },
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(const Color(0xFF5F5BDC)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: const BorderSide(
+                        color: Color.fromARGB(255, 255, 255, 255)),
+                  ),
+                ),
               ),
-            );
-          },
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        child: Text(
-          'Close',
-          style: TextStyle(color: Color.fromARGB(255, 250, 250, 250)),
-        ),
-        style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF5F5BDC)),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
-          side: BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
-        ),
-      ),
-    ),
-  ),
-],
-
+              child: const Text(
+                'Close',
+                style: TextStyle(color: Color.fromARGB(255, 250, 250, 250)),
+              ),
+            ),
+          ],
+        );
+      },
     );
-  },
-);
-
   }
 }

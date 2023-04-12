@@ -18,6 +18,7 @@ class _SimpleMapScreen extends State<SimpleMapScreen> {
   bool _addingMarker = false;
   final TextEditingController _markerNameController = TextEditingController();
 
+  // ignore: constant_identifier_names
   static const CameraPosition Thailand = CameraPosition(
     target: LatLng(15.425709086101342, 100.87169109829972),
     zoom: 7,
@@ -82,7 +83,8 @@ class _SimpleMapScreen extends State<SimpleMapScreen> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Add Marker",style: TextStyle(color: Color(0xFF5F5BDC))),
+            title: const Text("Add Marker",
+                style: TextStyle(color: Color(0xFF5F5BDC))),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -115,13 +117,13 @@ class _SimpleMapScreen extends State<SimpleMapScreen> {
                   });
                   _saveMarkers();
                 },
-                child: const Text('Add'),
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xFF5F5BDC),
+                  backgroundColor: const Color(0xFF5F5BDC),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
                   ),
                 ),
+                child: const Text('Add'),
               ),
               TextButton(
                 onPressed: () {
@@ -130,7 +132,8 @@ class _SimpleMapScreen extends State<SimpleMapScreen> {
                     _addingMarker = false;
                   });
                 },
-                child: const Text("Cancel",style: TextStyle(color: Color(0xFF5F5BDC))),
+                child: const Text("Cancel",
+                    style: TextStyle(color: Color(0xFF5F5BDC))),
               ),
             ],
           );
@@ -147,56 +150,50 @@ class _SimpleMapScreen extends State<SimpleMapScreen> {
     _saveMarkers();
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Simple Map"),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+        appBar: AppBar(
+          title: const Text("Simple Map"),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
         ),
-      ),
-      body: Stack(
-      children: [
-      GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: Thailand,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
-            onTap: _onMapTapped,
-            markers: _markers,
-        ),
-      Positioned(
-        left: 20,
-        bottom: 55,
-        child: FloatingActionButton(
-        onPressed: () {
-          _toggleAddMarker();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('You can now add markers!'),
-              backgroundColor: Color(0xFF5F5BDC),
-              //  shape: RoundedRectangleBorder(
-              //  borderRadius: BorderRadius.circular(10),  
-              // ),
+        body: Stack(
+          children: [
+            GoogleMap(
+              mapType: MapType.normal,
+              initialCameraPosition: Thailand,
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
+              onTap: _onMapTapped,
+              markers: _markers,
+            ),
+            Positioned(
+              left: 20,
+              bottom: 55,
+              child: FloatingActionButton(
+                onPressed: () {
+                  _toggleAddMarker();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('You can now add markers!'),
+                      backgroundColor: Color(0xFF5F5BDC),
+                      //  shape: RoundedRectangleBorder(
+                      //  borderRadius: BorderRadius.circular(10),
+                      // ),
+                    ),
+                  );
+                },
+                child: const Icon(Icons.add),
+                // backgroundColor: Color(0xFF5F5BDC),
               ),
-          );
-        },
-        child: const Icon(Icons.add),
-        // backgroundColor: Color(0xFF5F5BDC),
-      ),
-      ),
-  ],
-)
-
-      
-      
-    
-      
-    );
+            ),
+          ],
+        ));
   }
 }
