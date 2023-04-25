@@ -15,7 +15,7 @@ class CurrentLocation extends StatefulWidget {
 
 class _CurrentLocationState extends State<CurrentLocation> {
   late GoogleMapController googleMapController;
-  static const String kGoogleApiKey = 'AIzaSyA4dE8hJwP8fMZzKk59m7A_UEMgx9O0eHo';
+  static const String kGoogleApiKey = '';
   String radius = "300";
 
   Set<Marker> markers = {};
