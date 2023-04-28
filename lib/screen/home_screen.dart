@@ -15,6 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         //   leading: Image.asset(
         //     'assets/images/my_logo.png',
@@ -29,8 +30,16 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Column(children: [
-            Lottie.network(
-                'https://assets8.lottiefiles.com/packages/lf20_tgsdtwsc.json'),
+            SizedBox(
+              width: 300,
+              height: 280,
+              child: Lottie.network(
+                  'https://assets8.lottiefiles.com/packages/lf20_q2yqh3wf.json'),
+            ),
+            const SizedBox(
+              width: 20,
+              height: 10,
+            ),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context)
