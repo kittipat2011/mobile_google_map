@@ -14,3 +14,16 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Setting for this project
+The Emulator that was used in this project is
+- Google Pixel 5 R model
+
+You have to insert your Google API key before using the search and current function
+
+Use command
+flutter pub get 
+to get all the required dependency
+- flutter run
+to run the application
+

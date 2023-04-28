@@ -15,7 +15,7 @@ class CurrentLocation extends StatefulWidget {
 
 class _CurrentLocationState extends State<CurrentLocation> {
   late GoogleMapController googleMapController;
-  static const String kGoogleApiKey = '';
+  static const String kGoogleApiKey = 'YOUR_GOOGLE_API_KEY';
   String radius = "300";
 
   Set<Marker> markers = {};
@@ -33,64 +33,62 @@ class _CurrentLocationState extends State<CurrentLocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      title: const Text("User Current Location"),
-      centerTitle: true,
-      backgroundColor: Color(0xFF0A182B),
-      ),
-      body: Stack(
-  children: [
-    Column(
-      children: [
-        Expanded(
-          child: GoogleMap(
-            initialCameraPosition: const CameraPosition(
-                  target: LatLng(15.425709086101342, 100.87169109829972),
-                  zoom: 7),
-              markers: markers,
-              zoomControlsEnabled: false,
-              mapType: MapType.normal,
-              onMapCreated: (GoogleMapController controller) {
-                googleMapController = controller;
-              },
-          ),
+        appBar: AppBar(
+          title: const Text("User Current Location"),
+          centerTitle: true,
+          backgroundColor: Color(0xFF0A182B),
         ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.all(15.0),
-            child: ListView.builder(
-              itemCount: nearbyPlacesResponse.results?.length ?? 0,
-              itemBuilder: (context, index) {
-                return nearbyPlacesWidget(nearbyPlacesResponse.results![index]);
-              },
+        body: Stack(
+          children: [
+            Column(
+              children: [
+                Expanded(
+                  child: GoogleMap(
+                    initialCameraPosition: const CameraPosition(
+                        target: LatLng(15.425709086101342, 100.87169109829972),
+                        zoom: 7),
+                    markers: markers,
+                    zoomControlsEnabled: false,
+                    mapType: MapType.normal,
+                    onMapCreated: (GoogleMapController controller) {
+                      googleMapController = controller;
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: ListView.builder(
+                      itemCount: nearbyPlacesResponse.results?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        return nearbyPlacesWidget(
+                            nearbyPlacesResponse.results![index]);
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ),
-      ],
-    ),
-    Positioned(
-      top: 300.0, 
-      right: 5.0, 
-      child: FloatingActionButton.extended(
-      onPressed: () {
-      _updateCurrentLocation();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Update Location !'),
-          backgroundColor: Color(0xFF5F5BDC),
-        ),
-      );
-    },
-    label: const Text("Update Location"),
-    icon: const Icon(Icons.location_history),
-    backgroundColor: Color(0xFF5F5BDC),
-  ),
-),
-
-  ],
-)
-
-    );
+            Positioned(
+              top: 300.0,
+              right: 5.0,
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  _updateCurrentLocation();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Update Location !'),
+                      backgroundColor: Color(0xFF5F5BDC),
+                    ),
+                  );
+                },
+                label: const Text("Update Location"),
+                icon: const Icon(Icons.location_history),
+                backgroundColor: Color(0xFF5F5BDC),
+              ),
+            ),
+          ],
+        ));
   }
 
   Future<void> _updateCurrentLocation() async {
@@ -156,21 +154,22 @@ class _CurrentLocationState extends State<CurrentLocation> {
       },
       child: Card(
         margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),  
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: 70,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Name: ${results.name!}"),
+              Text(
+                  "Location: ${results.geometry!.location!.lat}, ${results.geometry!.location!.lng}"),
+            ],
           ),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 70,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text("Name: ${results.name!}"),
-                Text("Location: ${results.geometry!.location!.lat}, ${results.geometry!.location!.lng}"),
-              ],
-            ),
-          ),
+        ),
       ),
     );
   }

@@ -15,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         //   leading: Image.asset(
         //     'assets/images/my_logo.png',
@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Lottie.network(
                   'https://assets8.lottiefiles.com/packages/lf20_q2yqh3wf.json'),
             ),
-            const SizedBox(
+            SizedBox(
               width: 20,
               height: 10,
             ),
@@ -86,7 +86,7 @@ class ElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(5.0), // Add 16.0 padding on all sides
+      padding: EdgeInsets.all(5.0), // Add 16.0 padding on all sides
       child: SizedBox(
         width: 350,
         height: 100,
