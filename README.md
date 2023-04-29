@@ -18,14 +18,8 @@ By executing this command to start the project
 
 ## Snapshot
 
-- `Technology`<br>
-<img src="/snapshot/technology.png" alt="technology">
-
-- `Login`<br>
-<img src="/snapshot/login.png" alt="login">
-
-- `Register`<br>
-<img src="/snapshot/register.png" alt="register">
+- `Overview`<br>
+<img src="/snapshot/NaviGo.png" alt="naviGo">
 
 ## Presentation Slide
 - [Click Here](https://www.canva.com/design/DAFhNNgPLQU/pCJiu6XCYeIvUqffFpOhDQ/edit?utm_content=DAFhNNgPLQU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
